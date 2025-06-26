@@ -20,6 +20,13 @@ library(tidyr)
 
 ```
 
+```{r}
+library(dplyr)
+library(ggplot2)
+library(readr)
+library(tidyr)
+```
+
 # Data import
 
 ```{r}
@@ -37,6 +44,13 @@ All code for pre-processing and the imported data can be accessed from the [larn
 
 ```{r}
 
+sanitation
+glimpse(sanitation)
+head(sanitation)
+tail(sanitation)
+```
+
+```{r}
 sanitation
 glimpse(sanitation)
 head(sanitation)
@@ -78,6 +92,26 @@ sanitation |>
   filter(percent > 80)
 ```
 
+```{r}
+sanitation |> 
+  filter(residence =="national")
+
+sanitation|>
+  filter(residence =="national", iso3 =="SEN")
+
+sanitation |>
+  filter(iso3 == "UGA" | iso3 =="GHA" | iso3 == "USA")
+
+sanitation |> 
+  filter(iso3 %in% c("UGA", "GHA", "USA"))
+
+sanitation |>
+  filter(residence != "national")
+
+sanitation |>
+  filter(percent > 80)
+```
+
 #### Your turn
 
 1.  Use the `filter()` function to create a subset from the `sanitation` data object containing national estimates for the year 2020
@@ -89,6 +123,11 @@ sanitation |>
 sanitation |>
   filter(residence == "national", year == 2020)
 
+sanitation_national_2020 <- sanitation |>
+  filter(residence == "national", year == 2020)
+```
+
+```{r}
 sanitation_national_2020 <- sanitation |>
   filter(residence == "national", year == 2020)
 ```
@@ -112,6 +151,14 @@ The function `select()` picks variables based on their names.
 
 ```{r}
 
+sanitation |> 
+  select(name, iso3, percent, year)
+
+sanitation |>
+  select(name:percent,year)
+```
+
+```{r}
 sanitation |> 
   select(name, iso3, percent, year)
 
@@ -150,12 +197,22 @@ sanitation |>
   relocate(income_id, .after = year)
 ```
 
+```{r}
+sanitation |>
+  relocate(income_id, .after = year)
+```
+
 ### dplyr::mutate()
 
 The function `mutate()` changes the values of columns and creates new columns.
 
 ```{r}
 
+sanitation |>
+mutate(people_access = pop * percent / 100)  
+```
+
+```{r}
 sanitation |>
 mutate(people_access = pop * percent / 100)  
 ```
@@ -198,6 +255,16 @@ ggplot(data = sanitation_national_2020_fct,
 
 ```
 
+```{r}
+ggplot(data = sanitation_national_2020,
+       mapping = aes(x = income_id, 
+                     y = percent, 
+                     fill = income_id)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(width = 0.1)
+
+```
+
 ## Groups of rows
 
 ### dplyr::summarise()
@@ -205,6 +272,22 @@ ggplot(data = sanitation_national_2020_fct,
 ```{r}
 
 
+sanitation_national_2020_fct |>
+  summarise()
+
+sanitation_national_2020_fct |> 
+  summarise(percent = mean(percent, na.rm = TRUE),
+            count = n())
+
+
+sanitation_national_2020_fct |> 
+  filter(!is.na(percent)) |> 
+  summarise(percent = mean(percent),
+            count = n())
+
+```
+
+```{r}
 sanitation_national_2020_fct |>
   summarise()
 
@@ -246,4 +329,14 @@ sanitation_national_2020_fct |>
 ```{r}
 library(usethis)
 use_git_config(user.name = "jessica271", user.email = "Jessica.Maina@colorado.edu")
+```
+
+```{r}
+sanitation_national_2020_fct |>
+  mutate(people_access = pop * percent / 100) |>
+  drop_na() |>
+  group_by(region) |>
+  summarise(people_access = sum(people_access),
+            pop = sum(pop)) |>
+  mutate(percent = people_access / pop *100 )
 ```
