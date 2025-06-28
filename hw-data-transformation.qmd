@@ -382,7 +382,7 @@ table_composition <- composition_tidy_capita_income_cat |>
 
 ```
 
-```{}
+```         
 ```
 
 # Task 4: Data visualisations
@@ -445,6 +445,14 @@ ggplot(data = composition_tidy_capita_income_cat,
                      color = income_cat)) +
   geom_point()
 
+```
+
+```{r}
+ggplot(data = composition_tidy_capita_income_cat,
+       mapping = aes(x = msw_capita_kg_year, 
+                     y = food_organic_waste,
+                     color = income_cat)) +
+  geom_point()
 ```
 
 ## Boxplot

@@ -13,15 +13,86 @@ Learning reflections are part of your weekly homework and have a weight of 20% o
 
 # Lecture
 
-<!--# Add your reflections on the lecture of this week here -->
+**dplyr** is a data wrangling method in R which helps in filtering rows, selecting columns, creating new variables, summarizing data, and joining datasets.
 
-# Homework Assignment
+-   relocate( ) - Relocates a column to were its needed
 
-<!--# Add your reflections on the homework programming assignment here -->
+-   rename( ) - Gives columns new names
+
+-   `filter()` — filters a specific column needed
+
+-   `select()` — choose specific columns (data tidying)
+
+-   `mutate()` — add or modify columns
+
+-   `arrange()` — sort rows
+
+-   `summarise()` — calculate a summary
+
+-   `group_by()` — groups data
+
+-   summarise( ) - Narrows to the columns needed
+
+-   `join` ( ) — combine datasets based on keys
+
+These functions can be used together in one code using the pipe operator \|\>
+
+dplyr has s**election helpers** such as:
+
+-   starts_with( ): Starts with a prefix.
+
+-   ends_with( ): Ends with a suffix.
+
+-   contains( ): Contains a literal string.
+
+-   matches( ): Matches a regular expression.
+
+-   num_range( ): Matches a numerical range.
+
+    # Homework Assignment
+
+**Data Importing**
+
+`read_csv()` **function** is used to import data into R for coding. For example,
+
+```{r}
+read_csv(here::here("data/country_level_data_0.csv")) 
+```
+
+The function imported a file named as "country_level_data_0.csv
+
+here::here( ) helped in getting the data file without using the library( ) function
 
 # Readings
 
-<!--# Add your reflections on the required readings here -->
+**kable( ) function** is from `knitr` package and is used to create tables in R Markdown, HTML, PDF, or Word outputs.
+
+It is installed using the below code:
+
+```{r}
+install.packages("kableExtra")
+```
+
+or
+
+```{r}
+
+library(knitr)  # for kable()
+
+```
+
+knitr helps embed R code in documents while kable( ) creates tables in PDF or Word formats.
+
+Example:
+
+```{r}
+my_data |>
+  filter(score > 50) |>
+  select(name, score) |>
+  knitr::kable(caption = "Scores above 50")
+```
+
+This code will produce a table containing scores above 50 and names of the students.
 
 # Submit learning reflections
 
